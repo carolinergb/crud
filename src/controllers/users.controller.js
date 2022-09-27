@@ -5,16 +5,15 @@ import { retrieveUserService } from "../services/users/retrieveUser.service";
 import { updateUserService } from "../services/users/updateUser.service";
 
 export const createUserController = (request, response) => {
-	const user = request.body;
+	const { name, email, isAdm } = request.body;
 
-	const createdUser = createUserService(user);
+	const createdUser = createUserService(name, email, isAdm);
 
 	return response.status(201).json(createdUser);
 };
 
 export const listUserController = (request, response) => {
-	const isAdm = request.query.isAdm;
-	const users = listUserService(isAdm);
+	listUserService();
 	return response.json(users);
 };
 
@@ -45,7 +44,7 @@ export const updateUserController = (request, response) => {
 
 		const updatedUser = updateUserService(id, user);
 
-		return response.json(updatedUser);
+		return response.status(200).json(updatedUser);
 	} catch (error) {
 		return response.status(400).json({ message: error.message });
 	}
